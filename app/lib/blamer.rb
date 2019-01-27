@@ -5,7 +5,7 @@ GITHUB_GRAPHQL_API_URL = Errbit::Config.github_api_url + '/graphql'
 GITHUB_ACCESS_TOKEN = Errbit::Config.github_access_token
 
 GraphQLHTTP = GraphQL::Client::HTTP.new(GITHUB_GRAPHQL_API_URL) do
-  def headers(context)
+  def headers(_context)
     { "Authorization": "Bearer #{GITHUB_ACCESS_TOKEN}" }
   end
 end
@@ -39,6 +39,7 @@ GRAPHQL
 class Blamer
   def self.blame_line(repo_name, repo_owner, branch, file_path, line_number)
     whodunnit = ''
+    return whodunnit unless GITHUB_ACCESS_TOKEN.present?
     parsed_blame_hash = blame_file(repo_name, repo_owner, branch, file_path, parse_result: true)
     parsed_blame_hash.each do |range, author|
       range_array = range.split('-').map(&:to_i)

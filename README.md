@@ -1,12 +1,4 @@
-# Features added to original Errbit in this fork:
-1. Slack mentions, either based on on code authorship or forced assignment
-2. Color coding and visual differentiation of Slack alerts based on their error class (notifications vs exceptions)
-3. Sending affected user and hostname in Slack alerts
-
-**Docker image available here:** https://cloud.docker.com/u/laasem/repository/docker/laasem/errbit
-
-
-# Errbit
+# Errbit [![TravisCI][travis-img-url]][travis-ci-url] [![Code Climate][codeclimate-img-url]][codeclimate-url] [![Coveralls][coveralls-img-url]][coveralls-url] [![Deploy](https://www.herokucdn.com/deploy/button.svg)][heroku-deploy-url]
 
 [travis-img-url]: https://travis-ci.org/errbit/errbit.svg?branch=master
 [travis-ci-url]: http://travis-ci.org/errbit/errbit
@@ -75,10 +67,10 @@ Installation
 Rails applications.
 
 * [Install MongoDB](https://www.mongodb.org/downloads)
-* git clone https://github.com/errbit/errbit.git
-* bundle install
-* bundle exec rake errbit:bootstrap
-* bundle exec rails server
+* `git clone https://github.com/errbit/errbit.git`
+* `bundle install`
+* `bundle exec rake errbit:bootstrap`
+* `bundle exec rails server`
 
 Configuration
 -------------

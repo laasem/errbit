@@ -62,24 +62,6 @@ class NotificationServices::SlackService < NotificationService
     service_url.present?
   end
 
-  private
-
-  def post_payload_fields(problem)
-    [
-      { title: "Application", value: problem.app.name, short: true },
-      { title: "Environment", value: problem.environment, short: true },
-      { title: "Times Occurred", value: problem.notices_count.try(:to_s),
-        short: true },
-      { title: "First Noticed",
-        value: problem.first_notice_at.try(:localtime).try(:to_s, :db),
-        short: true },
-      { title: "Assigned To", value: authors_to_mention(problem), short: true },
-      { title: "User", value: user_affected(problem), short: true },
-      { title: "Host", value: hostname(problem), short: true },
-      { title: "Backtrace", value: backtrace_lines(problem), short: false }
-    ]
-  end
-
   def notification_or_exception_emoji(problem)
     if problem.notification_not_exception?
       ':bell:'
@@ -103,9 +85,9 @@ class NotificationServices::SlackService < NotificationService
       slack_user_id = problem.app.slack_user_id_map[assignee]
       next unless slack_user_id.present?
       new_assigned_to_line = if slack_user_id.start_with?("S")
-        "<!subteam^#{slack_user_id}|#{assignee}>\n"
-      else
-        "<@#{slack_user_id}>\n"
+                               "<!subteam^#{slack_user_id}|#{assignee}>\n"
+                             else
+                               "<@#{slack_user_id}>\n"
       end
       assigned_to_lines += new_assigned_to_line
     end
@@ -115,14 +97,32 @@ class NotificationServices::SlackService < NotificationService
   def user_affected(problem)
     notice = problem.notices.last
     user_attributes = notice.user_attributes
-    return 'N/A' unless user_attributes['id'].present?
-    return "#{user_attributes['email']} (#{user_attributes['id']})"
+    return 'N/A' unless user_attributes.present? && user_attributes['id'].present?
+    "#{user_attributes['email']} (#{user_attributes['id']})"
   end
 
   def hostname(problem)
     notice = problem.notices.last
     env = notice.try(:server_environment) || {}
-    return env['hostname']
+    env['hostname']
+  end
+
+private
+
+  def post_payload_fields(problem)
+    [
+      { title: "Application", value: problem.app.name, short: true },
+      { title: "Environment", value: problem.environment, short: true },
+      { title: "Times Occurred", value: problem.notices_count.try(:to_s),
+        short: true },
+      { title: "First Noticed",
+        value: problem.first_notice_at.try(:localtime).try(:to_s, :db),
+        short: true },
+      { title: "Assigned To", value: authors_to_mention(problem), short: true },
+      { title: "User", value: user_affected(problem), short: true },
+      { title: "Host", value: hostname(problem), short: true },
+      { title: "Backtrace", value: backtrace_lines(problem), short: false }
+    ]
   end
 
   def backtrace_line(line)
