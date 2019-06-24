@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/github/graphql-client.git
+  revision: b9cbc7229798e2323dde2c732172a9cd5b691b83
+  ref: b9cbc7229798e2323dde2c732172a9cd5b691b83
+  specs:
+    graphql-client (0.14.0)
+      activesupport (>= 3.0, < 6.0)
+      graphql (~> 1.8)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -124,10 +133,7 @@ GEM
       railties (>= 3.2, < 5.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
-    graphql (1.8.7)
-    graphql-client (0.13.0)
-      activesupport (>= 3.0, < 6.0)
-      graphql (~> 1.6)
+    graphql (1.9.6)
     haml (5.0.4)
       temple (>= 0.8.0)
       tilt
@@ -456,7 +462,7 @@ DEPENDENCIES
   fabrication
   flowdock
   font-awesome-rails
-  graphql-client
+  graphql-client!
   haml
   hipchat
   hoi
