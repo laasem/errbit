@@ -1,5 +1,10 @@
 source 'https://rubygems.org'
 
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  "https://github.com/#{repo_name}.git"
+end
+
 RAILS_VERSION = '~> 4.2.10'
 
 send :ruby, ENV['GEMFILE_RUBY_VERSION'] if ENV['GEMFILE_RUBY_VERSION']
@@ -15,7 +20,7 @@ gem 'dotenv-rails'
 gem 'draper'
 gem 'errbit_plugin'
 gem 'errbit_github_plugin'
-gem 'graphql-client'
+gem 'graphql-client', git: 'https://github.com/github/graphql-client.git', ref: 'b9cbc7229798e2323dde2c732172a9cd5b691b83'
 gem 'font-awesome-rails'
 gem 'haml'
 gem 'htmlentities'

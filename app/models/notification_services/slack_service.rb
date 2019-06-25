@@ -123,7 +123,7 @@ private
       { title: "First Noticed",
         value: problem.first_notice_at.try(:localtime).try(:to_s, :db),
         short: true },
-      # { title: "Assigned To", value: authors_to_mention(problem), short: true },
+      { title: "Assigned To", value: authors_to_mention(problem), short: true },
       { title: "User", value: user_affected(problem), short: true },
       { title: "Host", value: hostname(problem), short: true },
       { title: "Request URL", value: request_url(problem), short: true },
