@@ -103,7 +103,7 @@ class NotificationServices::SlackService < NotificationService
 
   def anonymous_uid_header(problem)
     notice = problem.notices.last
-    notice.request['cgi-data']['headers']['HTTP_ANONYMOUS_UID'].presence || 'N/A'
+    notice.request.try('cgi-data').try('headers').try('HTTP_ANONYMOUS_UID').presence || 'N/A'
   end
 
   def request_uuid(problem)
