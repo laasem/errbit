@@ -101,6 +101,16 @@ class NotificationServices::SlackService < NotificationService
     "#{user_attributes['email']} (#{user_attributes['id']})"
   end
 
+  def anonymous_uid_header(problem)
+    notice = problem.notices.last
+    notice.request['cgi-data']['headers']['HTTP_ANONYMOUS_UID'].presence || 'N/A'
+  end
+
+  def request_uuid(problem)
+    notice = problem.notices.last
+    notice.request['uuid'].presence || 'N/A'
+  end
+
   def hostname(problem)
     notice = problem.notices.last
     env = notice.try(:server_environment) || {}
@@ -124,8 +134,10 @@ private
         value: problem.first_notice_at.try(:localtime).try(:to_s, :db),
         short: true },
       { title: "Assigned To", value: authors_to_mention(problem), short: true },
-      { title: "User", value: user_affected(problem), short: true },
       { title: "Host", value: hostname(problem), short: true },
+      { title: "User", value: user_affected(problem), short: true },
+      { title: "Anonymous UID Header", value: anonymous_uid_header(problem), short: true },
+      { title: "Request UUID", value: request_uuid(problem), short: true },
       { title: "Request URL", value: request_url(problem), short: true },
       { title: "Backtrace", value: backtrace_lines(problem), short: false }
     ]

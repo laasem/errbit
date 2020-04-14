@@ -64,7 +64,8 @@ module AirbrakeApi
           'params'    => params['params'],
           'url'       => url,
           'component' => context['component'],
-          'action'    => context['action']
+          'action'    => context['action'],
+          'uuid' => params['request_uuid']
         }
       end
 
